@@ -11,6 +11,7 @@ import 'getter.dart';
 import 'package:skillshodh/Profile.dart';
 import 'main.dart';
 class Home extends StatefulWidget {
+  static const String route = '/home';
   const Home({super.key});
 
   @override
@@ -140,9 +141,7 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                      return EditProfile();
-                    }));
+                    Navigator.of(context).pushNamed('/edit_profile');
                   },
                   child: Row(
                     children: [
@@ -203,9 +202,7 @@ class _HomeState extends State<Home> {
                               isaccess = false;
                               showload = false;
                             });
-                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                              return EditProfile();
-                            }));
+                            Navigator.of(context).pushNamed('/edit_profile');
                           }
                         });
                       } else {}
@@ -227,7 +224,10 @@ class _HomeState extends State<Home> {
       SizedBox(height: 30,),
       Container(height: MediaQuery.of(context).size.height-150, child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(width: (MediaQuery.of(context).size.width/4)-1, child: SingleChildScrollView(child: Column(children: [
-          Text('Filters', style: TextStyle(fontFamily: 'somewhat', fontSize: 23, color: Colors.black, fontWeight: FontWeight.w600, decoration: TextDecoration.underline),),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Lottie.asset('images/filter.json', width: 60),
+            Text('Filters', style: TextStyle(fontFamily: 'somewhat', fontSize: 23, color: Colors.black, fontWeight: FontWeight.w600, decoration: TextDecoration.underline),),
+          ],),
 
           SizedBox(height: 10,),
           GestureDetector(
@@ -464,11 +464,10 @@ class _HomeState extends State<Home> {
                 crossAxisSpacing: 4,
                 childAspectRatio: 1.2), itemBuilder: (BuildContext context, int i){
               return GestureDetector(onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                setState(() {
                   profmail = searchlist[i].mail;
-                  print(profmail);
-                  return Profile();
-                }));
+                });
+                Navigator.of(context).pushNamed('/profile/'+profmail);
               }, child: Card(child: Container(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(height: 10,),
                 Row(children: [

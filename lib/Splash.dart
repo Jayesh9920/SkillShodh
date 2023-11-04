@@ -7,8 +7,8 @@ import 'Home.dart';
 import 'main.dart';
 
 class Splash extends StatefulWidget {
+  static const String route = '/welcome';
   const Splash({super.key});
-
   @override
   State<Splash> createState() => _SplashState();
 }
@@ -54,7 +54,7 @@ class _SplashState extends State<Splash> {
     });
   }
     Future.delayed(const Duration(milliseconds: 2000), () {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()), ModalRoute.withName(''));
+      Navigator.of(context).pushNamed('/home');
     });
   }
 }

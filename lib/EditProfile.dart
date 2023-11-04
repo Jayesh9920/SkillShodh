@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'Home.dart';
+import 'package:skillshodh/Splash.dart';
 
 class EditProfile extends StatefulWidget {
+  static const String route = '/edit_profile';
   const EditProfile({super.key});
 
   @override
@@ -85,7 +87,12 @@ class _EditProfileState extends State<EditProfile> {
             Text('kill', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Color(0xff3930eb), fontWeight: FontWeight.w600),),
             Text('S', style: TextStyle(fontSize: 45, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
             Text('hodh', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
-
+            Spacer(),
+            IconButton(onPressed: (){
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushNamed('/welcome');
+            }, icon: Icon(Icons.logout_sharp)),
+            SizedBox(width: 30,)
           ],
         ),
       ),
@@ -599,7 +606,7 @@ class _EditProfileState extends State<EditProfile> {
             'skillslevel': selectedskillslevel,
             'purl':FirebaseAuth.instance.currentUser?.photoURL
           }).then((value) {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()), ModalRoute.withName(''));
+            Navigator.of(context).pushNamed('/home');
           });
         },
             child: Container(child: Center(child: Text("Save", style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'somewhat'),)),width: 80, height: 45,decoration: BoxDecoration(color: Color(0xff3930eb), borderRadius: BorderRadius.circular(0)))),
@@ -611,22 +618,27 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    String? email =
-        FirebaseAuth.instance.currentUser?.email;
-    FirebaseFirestore.instance.collection('users').doc(email).get().then((DocumentSnapshot docs) {
-      if(docs.exists){
-        setState(() {
-          fname.text = docs['fname'];
-          lname.text = docs['lname'];
-          bio.text = docs['bio'];
-          college = docs['college'];
-          year = docs['year'];
-          linkedin.text = docs['lurl'];
-          projects = docs['projects'];
-          selectedskills = docs['skills'];
-          selectedskillslevel = docs['skillslevel'];
-        });
-      }
-    });
+    User? user = FirebaseAuth.instance.currentUser;
+    if(user==null){
+      Navigator.of(context).pushNamed('/home');
+    }else{
+      String? email =
+          FirebaseAuth.instance.currentUser?.email;
+      FirebaseFirestore.instance.collection('users').doc(email).get().then((DocumentSnapshot docs) {
+        if(docs.exists){
+          setState(() {
+            fname.text = docs['fname'];
+            lname.text = docs['lname'];
+            bio.text = docs['bio'];
+            college = docs['college'];
+            year = docs['year'];
+            linkedin.text = docs['lurl'];
+            projects = docs['projects'];
+            selectedskills = docs['skills'];
+            selectedskillslevel = docs['skillslevel'];
+          });
+        }
+      });
+    }
   }
 }

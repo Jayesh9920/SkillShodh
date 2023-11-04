@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main.dart';
 import 'getter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lottie/lottie.dart';
 
 class Profile extends StatefulWidget {
+  static String route = '/profile';
   const Profile({super.key});
 
   @override
@@ -18,6 +20,7 @@ class _ProfileState extends State<Profile> {
   List<String> selectedskills = [];
   List<Users> list = [];
   List<String> lists = [];
+  bool error = false;
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore.instance.collection('users').get().then((QuerySnapshot querySnapshot) {
@@ -48,6 +51,19 @@ class _ProfileState extends State<Profile> {
                 }else{
                   Users user = Users(fname: element['fname'], lname: element['lname'], bio: element['bio'], college: element['college'], year: element['year'], lurl: element['lurl'], skills: element['skills'], skillslevel: element['skillslevel'], projects: element['projects'], mail: id, purl: element['purl']);
                   setState(() {
+                    list.insert(0, user);
+                    lists.insert(0, id);
+                  });
+                }
+              }
+            }else{
+              if(lists.contains(id)){
+              }else{
+                if(profmail==id){
+
+                }else{
+                  Users user = Users(fname: element['fname'], lname: element['lname'], bio: element['bio'], college: element['college'], year: element['year'], lurl: element['lurl'], skills: element['skills'], skillslevel: element['skillslevel'], projects: element['projects'], mail: id, purl: element['purl']);
+                  setState(() {
                     list.add(user);
                     lists.add(id);
                   });
@@ -66,7 +82,8 @@ class _ProfileState extends State<Profile> {
     return Scaffold(body: Column(children: [
       SizedBox(height: 40,),
       Container(height: MediaQuery.of(context).size.height-150, child: Row(children: [
-        Container(width: 5*(MediaQuery.of(context).size.width/7)-1, child: SingleChildScrollView(child: Column(children: [
+
+        error ? Container(width: 5*(MediaQuery.of(context).size.width/7)-1, child: Center(child: Lottie.asset('images/nodata.json'),),) : Container(width: 5*(MediaQuery.of(context).size.width/7)-1, child: SingleChildScrollView(child: Column(children: [
           CachedNetworkImage(
             imageUrl: purl,
             progressIndicatorBuilder: (_, url, download) {
@@ -96,6 +113,8 @@ class _ProfileState extends State<Profile> {
           ),
           Text(fname, style: TextStyle(fontSize: 32),)
         ],),),),
+
+
         Container(width: 2, color: Colors.black,),
         Container(width: 2*(MediaQuery.of(context).size.width/7)-1, child: SingleChildScrollView(child: Column(children: [
           Padding(
@@ -106,10 +125,8 @@ class _ProfileState extends State<Profile> {
                 crossAxisSpacing: 4,
                 childAspectRatio: 2.3), itemBuilder: (BuildContext context, int i){
               return GestureDetector(onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                  profmail = list[i].mail;
-                  return Profile();
-                }));
+                profmail = list[i].mail;
+                Navigator.of(context).pushNamed('/profile/'+profmail);
               }, child: Card(child: Container(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(height: 10,),
                 Row(children: [
@@ -165,17 +182,29 @@ class _ProfileState extends State<Profile> {
 
   @override
   void initState() {
-    FirebaseFirestore.instance.collection('users').doc(profmail).get().then((DocumentSnapshot documentSnapshot) {
-      fname = documentSnapshot['fname'];
-      lname = documentSnapshot['lname'];
-      bio = documentSnapshot['bio'];
-      college = documentSnapshot['college'];
-      year = documentSnapshot['year'];
-      lurl = documentSnapshot['lurl'];
-      purl = documentSnapshot['purl'];
-      projects = documentSnapshot['projects'];
-      skillslevel = documentSnapshot['skillslevel'];
-      selectedskills = documentSnapshot['skills'];
-    });
+    if(profmail==''){
+
+    }else{
+      FirebaseFirestore.instance.collection('users').doc(profmail).get().then((DocumentSnapshot documentSnapshot) {
+        if(documentSnapshot.exists){
+          setState(() {
+            fname = documentSnapshot['fname'];
+            lname = documentSnapshot['lname'];
+            bio = documentSnapshot['bio'];
+            college = documentSnapshot['college'];
+            year = documentSnapshot['year'];
+            lurl = documentSnapshot['lurl'];
+            purl = documentSnapshot['purl'];
+            projects = documentSnapshot['projects'];
+            skillslevel = documentSnapshot['skillslevel'];
+            selectedskills = documentSnapshot['skills'];
+          });
+        }else{
+          setState(() {
+            error = true;
+          });
+        }
+      });
+    }
   }
 }

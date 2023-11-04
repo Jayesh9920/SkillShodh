@@ -5,6 +5,8 @@ import 'package:skillshodh/EditProfile.dart';
 import 'package:skillshodh/Splash.dart';
 import 'Profile.dart';
 import 'Home.dart';
+import 'Splash.dart';
+import 'Error.dart';
 import 'firebase_options.dart';
 bool isuser = false;
 bool isaccess = false;
@@ -40,7 +42,25 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Splash(),
+      initialRoute: Splash.route,
+      onGenerateRoute: (setting){
+        if(setting.toString().contains('RouteSettings("/profile/')){
+          profmail = setting.toString().replaceAll('RouteSettings("/profile/', '').replaceAll('", null)', '');
+          return MaterialPageRoute(
+              settings: setting,
+              builder: (context) => Profile());
+        }else{
+          return MaterialPageRoute(
+              settings: setting,
+              builder: (context) => Error());
+        }
+      },
+      routes: {
+        Home.route: (context) => Home(),
+        EditProfile.route: (context) => EditProfile(),
+        Splash.route: (context) => Splash(),
+
+      },
     );
   }
 }
