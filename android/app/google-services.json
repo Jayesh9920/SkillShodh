@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812634494757",
+    "project_id": "skillshodh",
+    "storage_bucket": "skillshodh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812634494757:android:c046d809bd86acaf9faccc",
+        "android_client_info": {
+          "package_name": "startapp.solutions.skillshodh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4S4yr-RAjE0udFTAwjT3cHKW4nwmclz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
