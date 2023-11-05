@@ -78,20 +78,23 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SingleChildScrollView(child: Column(children: [
-      Container(height: 60,
+      Container(height: 60, color: Color(0xfff8f4f8),
         child: Row(
           children: [
             SizedBox(width: 10,),
-            Image.asset('images/iii.png', height: 60,),
-            Text('S', style: TextStyle(fontSize: 45, fontFamily: 'somewhat', color: Color(0xff3930eb), fontWeight: FontWeight.w600),),
-            Text('kill', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Color(0xff3930eb), fontWeight: FontWeight.w600),),
-            Text('S', style: TextStyle(fontSize: 45, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
-            Text('hodh', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
+            GestureDetector(onTap: (){
+              Navigator.of(context).pushNamed('/home');
+            },child: Row(children: [Image.asset('images/iii.png', height: 60,),
+              Text('S', style: TextStyle(fontSize: 45, fontFamily: 'somewhat', color: Color(0xff3930eb), fontWeight: FontWeight.w600),),
+              Text('kill', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Color(0xff3930eb), fontWeight: FontWeight.w600),),
+              Text('S', style: TextStyle(fontSize: 45, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
+              Text('hodh', style: TextStyle(fontSize: 30, fontFamily: 'somewhat', color: Colors.black, fontWeight: FontWeight.w600),),
+            ],),),
             Spacer(),
             IconButton(onPressed: (){
               FirebaseAuth.instance.signOut();
               Navigator.of(context).pushNamed('/welcome');
-            }, icon: Icon(Icons.logout_sharp)),
+            }, icon: Icon(Icons.logout_sharp, size: 28, color: Color(0xff3930eb))),
             SizedBox(width: 30,)
           ],
         ),

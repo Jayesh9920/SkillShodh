@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
       }
     });
     return Scaffold(body: Column(children: [
-      Container(height: 75,
+      Container(height: 75, color: Color(0xfff8f4f8),
         child: Row(
           children: [
             SizedBox(width: 10,),
@@ -128,7 +128,9 @@ class _HomeState extends State<Home> {
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(onTap: (){}, child: Row(
+                child: GestureDetector(onTap: (){
+                  Navigator.of(context).pushNamed('/teams');
+                }, child: Row(
                   children: [
                     Image.asset('images/team.png', width: 28,),
                     Text('  Teams', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Color(0xff3930eb)),),
@@ -216,7 +218,6 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            Card(child: Container(height: 45, width: 45, child: IconButton(onPressed: (){}, icon: Image.asset('images/bell.png', height: 23,))),),
             SizedBox(width: 30,)
           ],
         ),
@@ -229,7 +230,6 @@ class _HomeState extends State<Home> {
             Text('Filters', style: TextStyle(fontFamily: 'somewhat', fontSize: 23, color: Colors.black, fontWeight: FontWeight.w600, decoration: TextDecoration.underline),),
           ],),
 
-          SizedBox(height: 10,),
           GestureDetector(
             onTap: (){
               setState(() {

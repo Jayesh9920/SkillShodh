@@ -6,6 +6,7 @@ import 'package:skillshodh/Splash.dart';
 import 'Profile.dart';
 import 'Home.dart';
 import 'Splash.dart';
+import 'Teams.dart';
 import 'Error.dart';
 import 'firebase_options.dart';
 bool isuser = false;
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         Home.route: (context) => Home(),
         EditProfile.route: (context) => EditProfile(),
         Splash.route: (context) => Splash(),
+        Teams.route: (context) => Teams(),
 
       },
     );
